@@ -1,0 +1,17 @@
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+from .config import get_settings
+
+# Entry point to database
+# First argument is the database URL from "get_settings"
+engine = create_engine(
+    get_settings().db_url, connect_args={"check_same_thread": False}
+)
+SessionLocal = sessionmaker(
+    autocommit=False, autoflush=False, bind=engine
+)
+
+# Class that the database model inherits from "models.py"
+Base = declarative_base()
